@@ -1,0 +1,70 @@
+services:
+  postgres:
+    container_name: postgres-sql
+    image: postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_DB: event-planner
+    volumes:
+      - postgres:/data/postgres
+    networks:
+      - spring-demo
+
+  elasticsearch:
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.5.3
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - elasticvolume:/usr/share/elasticsearch/data
+    networks:
+      - spring-demo
+
+  logstash:
+    container_name: logstash
+    image: docker.elastic.co/logstash/logstash:8.5.3
+    ports:
+      - "5044:5044"
+      - "9600:9600"
+    volumes:
+      - ./logstash/config/productsync.conf:/usr/share/logstash/config/productsync.conf
+      - ./logstash/bin/postgresql.jar:/usr/share/logstash/logstash-core/lib/jars/postgresql.jar
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    command: logstash -f /usr/share/logstash/config/productsync.conf
+    networks:
+      - spring-demo
+
+  redis:
+    image: bitnami/redis:latest
+    container_name: ms_redis
+    ports:
+      - 6379:6379
+    volumes:
+      - redis:/data
+    networks:
+      - spring-demo
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+
+networks:
+  spring-demo:
+    driver: bridge
+
+
+volumes:
+  postgres:
+    driver: local
+  elasticvolume:
+  redis:

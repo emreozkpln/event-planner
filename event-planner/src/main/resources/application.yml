@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: event-planner
+  elasticsearch:
+    uris: http://elasticsearch:9200
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    username: postgres
+    password: 12345
+    url: jdbc:postgresql://localhost:5432/event-planner
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 10000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-wait: 0ms
+          max-idle: 8
+          min-idle: 8
+    elasticsearch:
+      repositories:
+        enabled: true
+
+application:
+  security:
+    jwt:
+      secret-key: 9V2nFDdmkG7EO09PvcpE8v8l3mMaijgVyS3reguh3j84
+      expiration: 8640000
+server:
+  port: 8088
+  servlet:
+    context-path: /api/v1

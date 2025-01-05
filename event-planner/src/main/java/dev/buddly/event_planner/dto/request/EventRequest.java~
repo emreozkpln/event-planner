@@ -1,0 +1,17 @@
+package dev.buddly.event_planner.dto.request;
+
+import java.time.LocalDateTime;
+import java.util.Set;
+
+public record EventRequest(
+        String title,
+        String description,
+        String location,
+        LocalDateTime date,
+        int capacity,
+        String image,
+        LocalDateTime startDate,
+        LocalDateTime endDate,
+        Set<Integer> categoryId
+) {
+}
