@@ -1,5 +1,7 @@
 package dev.buddly.event_planner.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;

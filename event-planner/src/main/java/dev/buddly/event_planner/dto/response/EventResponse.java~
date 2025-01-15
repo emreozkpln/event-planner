@@ -1,8 +1,15 @@
 package dev.buddly.event_planner.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.MINIMAL_CLASS,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "@class")
 public record EventResponse(
         Integer id,
         String title,
@@ -16,6 +23,7 @@ public record EventResponse(
         String fullname,
         LocalDateTime createdDate,
         LocalDateTime lastModifiedDate,
-        Set<CategoryResponse> categories
+        Set<CategoryResponse> categories,
+        List<CommentResponse> comments
 ) {
 }

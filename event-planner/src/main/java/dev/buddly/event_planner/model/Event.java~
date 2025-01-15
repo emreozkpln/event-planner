@@ -1,9 +1,5 @@
 package dev.buddly.event_planner.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import dev.buddly.event_planner.utils.LocalDateSerializer;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -47,14 +43,11 @@ public class Event {
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonSerialize(using = LocalDateSerializer.class)
+    @Json
     private LocalDateTime createdDate;
 
     @LastModifiedDate
     @Column(insertable = false)
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDateTime lastModifiedDate;
 
     public Event() {
