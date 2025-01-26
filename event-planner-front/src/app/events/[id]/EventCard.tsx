@@ -1,9 +1,21 @@
+"use client";
 import React from "react";
 import { formatDate } from "@/utils/formatDate";
 import { MapPin } from "lucide-react";
 import Link from "next/link";
+import { createReservation } from "@/api/reservation";
+import { useRouter } from "next/navigation";
 
-const EventCard = ({ data }: any) => {
+const EventCard = ({ data, eventId, token, bool }: any) => {
+	const router = useRouter();
+
+	const handleReservation = async () => {
+		const res = await createReservation(eventId, token);
+		if (res.data) {
+			router.refresh();
+		}
+	};
+
 	return (
 		<div className="min-h-[400px] bg-gray-900 flex items-center justify-center py-4 px-8 rounded-lg">
 			<div className="flex justify-between gap-9 md:flex-row w-full bg-gray-900 text-white rounded-lg p-4 md:p-8 space-y-4 md:space-y-0">
@@ -23,7 +35,20 @@ const EventCard = ({ data }: any) => {
 					<p className="text-sm text-[#A4ABB3] font-semibold mt-2">{formatDate(data.startDate)}</p>
 					<button className="text-sm text-[#815EE1] mt-4 font-bold tracking-wider">+ Add to Calendar</button>
 					<div className="mt-6">
-						<button className="w-full bg-purple-600 text-white py-4 rounded-lg font-semibold hover:bg-purple-700">Apply Now (Free)</button>
+						{bool != undefined && bool.isRegistered == true ? (
+							<Link target="_blank" href={bool.pdfUrl}>
+								<button className="w-full bg-purple-600 text-white py-4 rounded-lg font-semibold hover:bg-purple-700">Ticket</button>
+							</Link>
+						) : (
+							<button
+								className="w-full bg-purple-600 text-white py-4 rounded-lg font-semibold hover:bg-purple-700"
+								onClick={() => {
+									handleReservation();
+								}}
+							>
+								Apply Now (Free)
+							</button>
+						)}
 					</div>
 					<p className="text-sm text-gray-500 text-center font-semibold mt-4">No Refunds</p>
 				</div>

@@ -31,7 +31,7 @@ public class TicketService {
         this.s3client = s3client;
     }
 
-    private String bucketName = "";
+    private String bucketName = "buddly-aws-testing";
 
     @Transactional
     public String uploadFileAndSavePdf(Reservation reservation,String ticketFileName) throws IOException, DocumentException, URISyntaxException {

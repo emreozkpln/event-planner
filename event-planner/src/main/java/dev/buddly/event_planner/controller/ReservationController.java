@@ -1,6 +1,7 @@
 package dev.buddly.event_planner.controller;
 
 import com.itextpdf.text.DocumentException;
+import dev.buddly.event_planner.dto.response.IsRegisteredResponse;
 import dev.buddly.event_planner.dto.response.ReservationResponse;
 import dev.buddly.event_planner.handler.ResponseHandler;
 import dev.buddly.event_planner.service.ReservationService;
@@ -47,5 +48,13 @@ public class ReservationController {
             Authentication connectedUser
     ) {
         return ResponseEntity.ok(reservationService.getReservationUser(eventId, connectedUser));
+    }
+
+    @GetMapping("/isRegistered/{eventId}")
+    public ResponseEntity<IsRegisteredResponse> isRegistered(
+            @PathVariable Integer eventId,
+            Authentication connectedUser
+    ) {
+        return ResponseEntity.ok(reservationService.isRegistered(eventId, connectedUser));
     }
 }

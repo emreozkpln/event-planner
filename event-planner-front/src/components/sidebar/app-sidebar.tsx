@@ -21,20 +21,10 @@ const data = {
 			logo: GalleryVerticalEnd,
 			plan: "Enterprise",
 		},
-		{
-			name: "Acme Corp.",
-			logo: AudioWaveform,
-			plan: "Startup",
-		},
-		{
-			name: "Evil Corp.",
-			logo: Command,
-			plan: "Free",
-		},
 	],
 	navMain: [
 		{
-			title: "Playground",
+			title: "Home",
 			url: "/",
 			icon: SquareTerminal,
 			isActive: true,
@@ -54,8 +44,8 @@ const data = {
 			],
 		},
 		{
-			title: "Models",
-			url: "#",
+			title: "Profile",
+			url: "/profile",
 			icon: Bot,
 			items: [
 				{
@@ -73,8 +63,8 @@ const data = {
 			],
 		},
 		{
-			title: "Documentation",
-			url: "#",
+			title: "Add Event",
+			url: "/add-event",
 			icon: BookOpen,
 			items: [
 				{

@@ -2,7 +2,6 @@ package dev.buddly.event_planner.service;
 
 import com.itextpdf.text.DocumentException;
 import dev.buddly.event_planner.dto.ReservationMapper;
-import dev.buddly.event_planner.dto.response.IsRegisteredResponse;
 import dev.buddly.event_planner.dto.response.ReservationResponse;
 import dev.buddly.event_planner.exception.OperationNotPermittedException;
 import dev.buddly.event_planner.model.Reservation;
@@ -86,21 +85,14 @@ public class ReservationService {
         );
     }
 
-    public IsRegisteredResponse isRegistered(Integer eventId, Authentication connectedUser) {
+    public Object isRegistered(Integer eventId, Authentication connectedUser) {
         User user = (User) connectedUser.getPrincipal();
         var event = eventRepository.findById(eventId).orElseThrow(() -> new OperationNotPermittedException("Event not found"));
         Reservation reservation = reservationRepository.findByUserAndEvent(user, event).orElseThrow(() -> new OperationNotPermittedException("Event not found"));
         var ticket = ticketRepository.findByReservation(reservation);
-        if (ticket != null) {
-            return new IsRegisteredResponse(
-                    true,
-                    ticket.getPdfUrl()
-            );
-        }else {
-            return new IsRegisteredResponse(
-                    false,
-                    null
-            );
-        }
+        return new Object(){
+            final boolean isRegistered = true;
+            final boolean pdfUrl = ticket.getPdfUrl();
+        };
     }
 }
